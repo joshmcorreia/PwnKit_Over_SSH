@@ -55,6 +55,7 @@ def main():
 	ips = config["ips"]
 	credentials = config["credentials"]
 
+	# TODO: Make this section multi-threaded so you can connect to a ton of machines simultaneously
 	for ip in ips:
 		for credential in credentials:
 			try:
