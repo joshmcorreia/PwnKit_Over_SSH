@@ -7,11 +7,8 @@ filename = os.path.basename(__file__)
 logger = BetterLogger(logger_name=filename).logger
 
 COLOR_OKGREEN = '\033[92m'
-WARNING = '\033[93m'
-FAIL = '\033[91m'
-ENDC = '\033[0m'
-BOLD = '\033[1m'
-UNDERLINE = '\033[4m'
+COLOR_FAIL = '\033[91m'
+COLOR_END = '\033[0m'
 
 def read_config_file():
 	logger.debug("Reading config file...")
@@ -44,9 +41,9 @@ def check_login(ip_address, username, password):
 	logger.debug(f"'whoami' output: {output_as_string}")
 
 	if output_as_string == "root":
-		logger.info(f"{COLOR_OKGREEN}Successfully got root on {username}@{ip_address}{ENDC}")
+		logger.info(f"{COLOR_OKGREEN}Successfully got root on {username}@{ip_address}{COLOR_END}")
 	else:
-		logger.info(f"{FAIL}Failed to get root, the system does not seem to be vulnerable{ENDC}")
+		logger.info(f"{COLOR_FAIL}Failed to get root, the system does not seem to be vulnerable{COLOR_END}")
 
 def main():
 	config = read_config_file()
